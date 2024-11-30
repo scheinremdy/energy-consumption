@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
     const energyForm = document.getElementById("energy-form");
     const helpBtn = document.getElementById("help-btn");
     const themeBtn = document.getElementById("theme-btn");
@@ -9,26 +9,24 @@ document.addEventListener("DOMContentLoaded", function() {
     let dailyUsages = [];
 
     // Handle form submission for energy usage input
-    energyForm.addEventListener("submit", function(event) {
+    energyForm.addEventListener("submit", (event) => {
         event.preventDefault();
-
         const dailyUsage = parseFloat(dailyUsageInput.value);
         if (isNaN(dailyUsage) || dailyUsage <= 0) {
             alert("Please enter a valid usage.");
             return;
         }
-
         dailyUsages.push(dailyUsage);
         updateDashboard();
     });
 
     // Toggle Help Section Visibility
-    helpBtn.addEventListener("click", function() {
+    helpBtn.addEventListener("click", () => {
         helpSection.classList.toggle("hidden");
     });
 
     // Toggle Theme between Light and Dark Mode
-    themeBtn.addEventListener("click", function() {
+    themeBtn.addEventListener("click", () => {
         document.body.classList.toggle("dark-theme");
     });
 
@@ -50,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGraph() {
         const ctx = document.getElementById('usageGraph').getContext('2d');
 
-        // Clear previous chart
+        // Clear previous chart if exists
         if (window.usageChart) {
             window.usageChart.destroy();
         }
@@ -85,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         beginAtZero: true
                     }
                 }
-            }
+            });
         });
     }
 });
