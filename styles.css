@@ -2,34 +2,45 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background: linear-gradient(to bottom, #e0e7f1, #f4f4f9);
     color: #333;
 }
+
 header {
-    background-color: #0078d7;
+    background-color: #0056b3;
     color: white;
     text-align: center;
     padding: 20px;
 }
+
 form, .results, .help {
     margin: 20px;
     padding: 15px;
     border: 1px solid #ddd;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .hidden {
     display: none;
 }
+
 button {
     margin-top: 10px;
     padding: 10px 15px;
-    background-color: #0078d7;
+    background-color: #0056b3;
     color: white;
     border: none;
     border-radius: 3px;
     cursor: pointer;
 }
+
 button:hover {
-    background-color: #005bb5;
+    background-color: #004085;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
 }
