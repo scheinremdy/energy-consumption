@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOCOTECO II Energy Tracker</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="images/sun-logo.png" type="image/png">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.min.js"></script>
 </head>
 <body>
     <header>
+        <img src="images/sun-logo.png" alt="Sun Logo" id="logo" />
         <h1>SOCOTECO II Energy Tracker</h1>
-        <p>Monitor your energy usage and costs effectively.</p>
+        <p>Track your energy consumption and stay informed.</p>
     </header>
     <main>
         <div class="form-container">
             <form id="energy-form">
-                <label for="daily-usage">Daily Energy Usage (kWh):</label>
+                <label for="daily-usage">Enter your daily energy usage (kWh):</label>
                 <input type="number" id="daily-usage" placeholder="e.g., 5.2" step="0.1" required>
                 <button type="submit">Add Usage</button>
             </form>
@@ -25,20 +28,19 @@
         <div id="results" class="results hidden">
             <p id="average-usage"></p>
             <p id="total-usage"></p>
-            <p id="estimated-cost"></p>
             <canvas id="usageGraph"></canvas>
             <div id="energy-tips" class="tips"></div>
         </div>
         <section id="help-section" class="help hidden">
             <h2>Help Section</h2>
-            <p>💡 Input your daily energy usage to track consumption and costs.</p>
-            <p>📊 A graph will display trends over time.</p>
-            <p>⚙️ Input accurate values for better insights and recommendations.</p>
+            <p>💡 Input your daily energy usage to track consumption.</p>
+            <p>📊 A graph will display your daily usage trends.</p>
+            <p>⚙️ Ensure you input accurate values for better insights.</p>
         </section>
     </main>
     <footer>
         <p>© 2024 SOCOTECO II. All Rights Reserved.</p>
     </footer>
-    <script src="script.js" defer></script>
+    <script type="module" src="script.js" defer></script>
 </body>
 </html>
