@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("energy-form");
     const dailyUsageInput = document.getElementById("daily-usage");
-    const dashboard = document.getElementById("dashboard");
+    const resultsDiv = document.getElementById("results");
     const averageUsage = document.getElementById("average-usage");
     const totalUsage = document.getElementById("total-usage");
     const ctx = document.getElementById("usageGraph").getContext("2d");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "💸 Monitor your consumption regularly to avoid high bills."
     ];
 
-    const updateDashboard = () => {
+    const updateResults = () => {
         if (data.length === 0) return;
         const total = data.reduce((sum, val) => sum + val, 0);
         const average = (total / data.length).toFixed(2);
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         averageUsage.textContent = `📈 Average daily usage: ${average} kWh`;
         totalUsage.textContent = `⚡ Total energy used: ${total} kWh`;
 
-        dashboard.classList.remove("hidden");
+        resultsDiv.classList.remove("hidden");
         energyTips.textContent = tips[Math.floor(Math.random() * tips.length)];
     };
 
@@ -37,16 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (chart) chart.destroy();
 
         chart = new Chart(ctx, {
-            type: "line",
+            type: "bar",
             data: {
                 labels: data.map((_, i) => `Day ${i + 1}`),
                 datasets: [
                     {
                         label: "Daily Usage (kWh)",
                         data: data,
-                        backgroundColor: "rgba(75, 192, 192, 0.2)",
-                        borderColor: "rgba(75, 192, 192, 1)",
-                        borderWidth: 2,
+                        backgroundColor: data.map(() => {
+                            const colors = ["#ffc107", "#dc3545"];
+                            return colors[Math.floor(Math.random() * colors.length)];
+                        }),
+                        borderColor: "#ffffff",
+                        borderWidth: 1,
                     },
                 ],
             },
@@ -65,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isNaN(dailyUsage) && dailyUsage > 0) {
             data.push(dailyUsage);
-            updateDashboard();
+            updateResults();
             updateGraph();
             dailyUsageInput.value = "";
         } else {
