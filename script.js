@@ -1,93 +1,78 @@
-const form = document.getElementById('energy-form');
-const dailyUsageInput = document.getElementById('daily-usage');
-const resultsDiv = document.getElementById('results');
-const averageUsage = document.getElementById('average-usage');
-const totalUsage = document.getElementById('total-usage');
-const helpSection = document.getElementById('help-section');
-const helpBtn = document.getElementById('help-btn');
-const themeBtn = document.getElementById('theme-btn');
-const usageGraphCanvas = document.getElementById('usageGraph').getContext('2d');
-const energyTips = document.getElementById('energy-tips');
+document.addEventListener("DOMContentLoaded", function() {
+    const energyForm = document.getElementById("energy-form");
+    const resultsContainer = document.getElementById("results");
+    const dailyUsageInput = document.getElementById("daily-usage");
 
-let usageData = JSON.parse(localStorage.getItem('usageData')) || [];
-let theme = 'light';
+    let dailyUsages = [];
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const dailyUsage = parseFloat(dailyUsageInput.value);
-    if (!isNaN(dailyUsage) && dailyUsage > 0) {
-        usageData.push(dailyUsage);
-        localStorage.setItem('usageData', JSON.stringify(usageData));
-        updateDashboard();
-    }
-    dailyUsageInput.value = '';
-});
+    energyForm.addEventListener("submit", function(event) {
+        event.preventDefault();
 
-helpBtn.addEventListener('click', () => {
-    helpSection.classList.toggle('hidden');
-});
+        const dailyUsage = parseFloat(dailyUsageInput.value);
 
-themeBtn.addEventListener('click', () => {
-    theme = theme === 'light' ? 'dark' : 'light';
-    document.body.className = theme;
-    themeBtn.textContent = theme === 'light' ? '🔲 Toggle Theme' : '🔆 Toggle Theme';
-});
-
-function updateDashboard() {
-    const total = usageData.reduce((acc, curr) => acc + curr, 0);
-    const average = total / usageData.length;
-    averageUsage.textContent = `Average Daily Usage: ${average.toFixed(2)} kWh`;
-    totalUsage.textContent = `Total Usage: ${total.toFixed(2)} kWh`;
-
-    updateGraph();
-    updateEnergyTips();
-}
-
-function updateGraph() {
-    new Chart(usageGraphCanvas, {
-        type: 'line',
-        data: {
-            labels: Array.from({ length: usageData.length }, (_, i) => i + 1),
-            datasets: [{
-                label: 'Daily Energy Usage (kWh)',
-                data: usageData,
-                borderColor: theme === 'light' ? '#ff7f00' : '#1cc88a',
-                backgroundColor: theme === 'light' ? 'rgba(255, 127, 0, 0.2)' : 'rgba(28, 200, 138, 0.2)',
-                fill: true,
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
+        if (isNaN(dailyUsage) || dailyUsage <= 0) {
+            alert("Please enter a valid usage.");
+            return;
         }
-    });
-}
 
-function updateEnergyTips() {
-    const lastUsage = usageData[usageData.length - 1];
-    if (lastUsage < 1) {
-        energyTips.textContent = "Tip: Try to reduce your energy usage to save money and the environment!";
-    } else if (lastUsage > 5) {
-        energyTips.textContent = "Tip: Consider using energy-efficient appliances to reduce usage!";
-    } else {
-        energyTips.textContent = "Good job! Keep managing your energy consumption!";
-    }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    if (usageData.length > 0) {
+        dailyUsages.push(dailyUsage);
         updateDashboard();
+    });
+
+    function updateDashboard() {
+        const totalUsage = dailyUsages.reduce((acc, curr) => acc + curr, 0);
+        const averageUsage = totalUsage / dailyUsages.length;
+
+        // Display results
+        document.getElementById("total-usage").innerText = `Total Usage: ${totalUsage.toFixed(2)} kWh`;
+        document.getElementById("average-usage").innerText = `Average Usage: ${averageUsage.toFixed(2)} kWh`;
+
+        // Show results section
+        resultsContainer.classList.remove("hidden");
+
+        // Update chart
+        updateGraph();
+    }
+
+    function updateGraph() {
+        const ctx = document.getElementById('usageGraph').getContext('2d');
+
+        // Make sure the graph is cleared before redrawing
+        if (window.usageChart) {
+            window.usageChart.destroy();
+        }
+
+        const chartData = {
+            labels: Array.from({ length: dailyUsages.length }, (_, i) => `Day ${i + 1}`),
+            datasets: [{
+                label: 'Daily Usage (kWh)',
+                data: dailyUsages,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                fill: true,
+                tension: 0.3
+            }]
+        };
+
+        window.usageChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            });
+        });
     }
 });
