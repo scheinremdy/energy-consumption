@@ -1,46 +1,94 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f8f9fc;
+    color: #333;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #e0e7f1, #f4f4f9);
-    color: #333;
+}
+
+body.dark {
+    background-color: #333;
+    color: #f8f9fc;
 }
 
 header {
-    background-color: #0056b3;
-    color: white;
     text-align: center;
+    padding: 20px;
+    background-color: #4e73df;
+    color: white;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
     padding: 20px;
 }
 
-form, .results, .help {
-    margin: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.form-container {
+    margin-bottom: 20px;
+}
+
+#daily-usage {
+    padding: 8px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #2e59d9;
 }
 
 .hidden {
     display: none;
 }
 
-button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+.results {
+    margin-top: 20px;
 }
 
-button:hover {
-    background-color: #004085;
-}
-
-canvas {
+#usageGraph {
     max-width: 100%;
-    height: auto;
+    height: 300px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #4e73df;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.help-btn, .theme-btn {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.help {
+    background-color: #f8f9fc;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.dark .help {
+    background-color: #2e2e2e;
+    color: white;
+}
+
+.tips {
+    margin-top: 20px;
+    font-size: 14px;
 }
