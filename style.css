@@ -84,26 +84,36 @@ button:hover {
     margin-top: 20px;
 }
 
+.analytics {
+    margin-top: 20px;
+    font-size: 1.1rem;
+}
+
 .hidden {
     display: none;
 }
 
-canvas {
-    margin-top: 20px;
-    max-width: 100%;
-}
-
 .tips {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    color: #fff;
+    font-size: 1rem;
+    color: #f39c12;
 }
 
-/* Footer */
-footer {
-    margin-top: 40px;
-    font-size: 0.9rem;
-    opacity: 0.8;
+/* Dark Mode */
+.dark-theme {
+    background: #2c3e50;
+    color: white;
+}
+
+.dark-theme header {
+    color: #ecf0f1;
+}
+
+.dark-theme .form-container button {
+    background-color: #2980b9;
+}
+
+.dark-theme .form-container button:hover {
+    background-color: #3498db;
 }
 
 /* Animations */
@@ -118,25 +128,11 @@ footer {
 
 @keyframes slideDown {
     from {
-        transform: translateY(-50px);
+        transform: translateY(-20px);
         opacity: 0;
     }
     to {
         transform: translateY(0);
         opacity: 1;
     }
-}
-
-.dark-theme {
-    background: #2d3436;
-    color: #dfe6e9;
-}
-
-.dark-theme button {
-    background-color: #00b894;
-}
-
-.dark-theme header h1,
-.dark-theme .help-btn {
-    color: #00b894;
 }
