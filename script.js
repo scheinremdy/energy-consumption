@@ -1,76 +1,91 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const navButtons = document.querySelectorAll("nav button");
-    const sections = document.querySelectorAll(".section");
-    const themeToggle = document.getElementById("theme-toggle");
+document.addEventListener("DOMContentLoaded", function() {
+    const energyForm = document.getElementById("energy-form");
+    const helpBtn = document.getElementById("help-btn");
+    const themeBtn = document.getElementById("theme-btn");
+    const resultsContainer = document.getElementById("results");
     const dailyUsageInput = document.getElementById("daily-usage");
-    const form = document.getElementById("energy-form");
-    const insightsGraph = document.getElementById("insightsGraph").getContext("2d");
-    const usageGraph = document.getElementById("usageGraph").getContext("2d");
+    const helpSection = document.getElementById("help-section");
 
-    let data = [];
-    let chart;
+    let dailyUsages = [];
 
-    // Update Navigation
-    navButtons.forEach((button, index) => {
-        button.addEventListener("click", () => {
-            sections.forEach((section) => section.classList.add("hidden"));
-            sections[index].classList.remove("hidden");
-        });
-    });
+    // Handle form submission for energy usage input
+    energyForm.addEventListener("submit", function(event) {
+        event.preventDefault();
 
-    // Theme Toggle
-    themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark");
-        themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-    });
-
-    // Add Energy Usage
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const usage = parseFloat(dailyUsageInput.value);
-
-        if (!isNaN(usage) && usage > 0) {
-            data.push(usage);
-            updateGraph();
-            dailyUsageInput.value = "";
-        } else {
-            alert("Please enter a valid energy usage.");
+        const dailyUsage = parseFloat(dailyUsageInput.value);
+        if (isNaN(dailyUsage) || dailyUsage <= 0) {
+            alert("Please enter a valid usage.");
+            return;
         }
+
+        dailyUsages.push(dailyUsage);
+        updateDashboard();
     });
 
-    // Update Graph
-    const updateGraph = () => {
-        if (chart) chart.destroy();
+    // Toggle Help Section Visibility
+    helpBtn.addEventListener("click", function() {
+        helpSection.classList.toggle("hidden");
+    });
 
-        chart = new Chart(usageGraph, {
-            type: "line",
-            data: {
-                labels: data.map((_, i) => `Day ${i + 1}`),
-                datasets: [
-                    {
-                        label: "Daily Usage (kWh)",
-                        data: data,
-                        borderColor: "#f39c12",
-                        backgroundColor: "rgba(243, 156, 18, 0.2)",
-                        borderWidth: 2,
+    // Toggle Theme between Light and Dark Mode
+    themeBtn.addEventListener("click", function() {
+        document.body.classList.toggle("dark-theme");
+    });
+
+    function updateDashboard() {
+        const totalUsage = dailyUsages.reduce((acc, curr) => acc + curr, 0);
+        const averageUsage = totalUsage / dailyUsages.length;
+
+        // Update total and average usage
+        document.getElementById("total-usage").innerText = `Total Usage: ${totalUsage.toFixed(2)} kWh`;
+        document.getElementById("average-usage").innerText = `Average Usage: ${averageUsage.toFixed(2)} kWh`;
+
+        // Show results
+        resultsContainer.classList.remove("hidden");
+
+        // Update the graph
+        updateGraph();
+    }
+
+    function updateGraph() {
+        const ctx = document.getElementById('usageGraph').getContext('2d');
+
+        // Clear previous chart
+        if (window.usageChart) {
+            window.usageChart.destroy();
+        }
+
+        const chartData = {
+            labels: Array.from({ length: dailyUsages.length }, (_, i) => `Day ${i + 1}`),
+            datasets: [{
+                label: 'Daily Usage (kWh)',
+                data: dailyUsages,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                fill: true,
+                tension: 0.3
+            }]
+        };
+
+        window.usageChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
                     },
-                ],
-            },
-        });
-    };
-
-    // Create Initial Insights Graph
-    new Chart(insightsGraph, {
-        type: "bar",
-        data: {
-            labels: ["Solar", "Wind", "Hydro", "Nuclear"],
-            datasets: [
-                {
-                    label: "Energy Source Distribution",
-                    data: [40, 25, 20, 15],
-                    backgroundColor: ["#f39c12", "#27ae60", "#2980b9", "#8e44ad"],
+                    tooltip: {
+                        enabled: true
+                    }
                 },
-            ],
-        },
-    });
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            });
+        });
+    }
 });
