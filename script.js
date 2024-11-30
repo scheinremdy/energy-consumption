@@ -9,7 +9,7 @@ const themeBtn = document.getElementById('theme-btn');
 const usageGraphCanvas = document.getElementById('usageGraph').getContext('2d');
 const energyTips = document.getElementById('energy-tips');
 
-let usageData = [];
+let usageData = JSON.parse(localStorage.getItem('usageData')) || [];
 let theme = 'light';
 
 form.addEventListener('submit', (e) => {
@@ -17,6 +17,7 @@ form.addEventListener('submit', (e) => {
     const dailyUsage = parseFloat(dailyUsageInput.value);
     if (!isNaN(dailyUsage) && dailyUsage > 0) {
         usageData.push(dailyUsage);
+        localStorage.setItem('usageData', JSON.stringify(usageData));
         updateDashboard();
     }
     dailyUsageInput.value = '';
@@ -50,8 +51,8 @@ function updateGraph() {
             datasets: [{
                 label: 'Daily Energy Usage (kWh)',
                 data: usageData,
-                borderColor: theme === 'light' ? '#4e73df' : '#1cc88a',
-                backgroundColor: theme === 'light' ? 'rgba(78, 115, 223, 0.2)' : 'rgba(28, 200, 138, 0.2)',
+                borderColor: theme === 'light' ? '#ff7f00' : '#1cc88a',
+                backgroundColor: theme === 'light' ? 'rgba(255, 127, 0, 0.2)' : 'rgba(28, 200, 138, 0.2)',
                 fill: true,
             }]
         },
@@ -84,3 +85,9 @@ function updateEnergyTips() {
         energyTips.textContent = "Good job! Keep managing your energy consumption!";
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (usageData.length > 0) {
+        updateDashboard();
+    }
+});
