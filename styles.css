@@ -80,6 +80,58 @@ main {
     font-size: 1rem;
 }
 
+/* Dropdown Styling */
+.select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: white;
+}
+
+.select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Results Section */
+.results {
+    margin-top: 20px;
+}
+
+.results.hidden {
+    display: none;
+}
+
+.results h2 {
+    margin-bottom: 10px;
+}
+
+/* Graph Container */
+.graph-container {
+    margin-top: 20px;
+}
+
+.graph-container canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Language and Country Selectors */
+.language-container, .country-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.language-container label, .country-container label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
 .hidden {
     display: none;
 }
@@ -113,4 +165,10 @@ body.dark-theme .btn {
 
 body.dark-theme .btn.primary {
     background: #1e40af;
+}
+
+body.dark-theme .select {
+    background: #2d3748;
+    color: #f5f9fc;
+    border: 1px solid #4a5568;
 }
