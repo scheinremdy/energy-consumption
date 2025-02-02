@@ -5,25 +5,21 @@ Funktionen
 Tägliche Verbrauchserfassung: Nutzer können ihren täglichen Energieverbrauch (kWh) eingeben und Entwicklungen verfolgen.
 Interaktive Diagramme: Energieverbrauch wird übersichtlich und dynamisch visualisiert.
 Kostenschätzung:
-Berechnung der Energiekosten in Philippinischen Pesos (PHP).
-Euro (€)-Raten für europäische Nutzer verfügbar.
-Mehrsprachigkeit: Wechsel zwischen Deutsch und Englisch für eine optimierte Benutzererfahrung.
-Dark Mode: Umschaltung zwischen hellem und dunklem Design für bessere Lesbarkeit.
-Hilfebereich: Detaillierte Anleitungen zur Nutzung der Anwendung.
-Responsives Design: Optimiert für Desktop, Tablet und mobile Geräte.
-Demo
-Die Live-Version ist hier verfügbar:
-Energy Tracker Dashboard
+Berechnung der Energiekosten in Philippinischen Pesos (PHP)
+Euro (€)-Raten für europäische Nutzer
+Mehrsprachigkeit: Wechsel zwischen Deutsch und Englisch
+Dark Mode: Anpassung der Darstellung für bessere Lesbarkeit
+Hilfebereich: Anleitungen zur Nutzung der Anwendung
+Responsives Design: Optimiert für verschiedene Geräte
+Bedeutung des Projekts
+Ein effizientes Energiemanagement ist entscheidend für nachhaltige Entwicklung und Kosteneinsparungen. Dieses Projekt hilft Nutzern, ihren Energieverbrauch zu verstehen, zu analysieren und Maßnahmen zur Reduzierung zu ergreifen.
 
+Herausforderungen
+Implementierung einer Echtzeit-Datenaktualisierung für die Diagramme
+Optimierung der Benutzeroberfläche für eine professionelle Darstellung
+Sicherstellung der korrekten Mehrsprachigkeit und Währungsberechnung
 Technologien
-HTML5: Klare und semantische Struktur für bessere Zugänglichkeit.
-CSS3: Responsives Design, Animationen und Dark Mode-Unterstützung.
-JavaScript (ES6): Datenverarbeitung, Diagramme und Benutzerinteraktionen.
-Chart.js: Dynamische Diagramme zur Visualisierung des Energieverbrauchs.
-Installation
-Repository klonen
-bash
-Copy
-Edit
-git clone https://github.com/scheinremdy/energy-consumption.git
-cd energy-consumption  
+HTML5 – Strukturierung der Inhalte
+CSS3 – Gestaltung und responsives Design
+JavaScript (ES6) – Interaktive Funktionen und Datenverarbeitung
+Chart.js – Erstellung dynamischer Diagramme
