@@ -1,42 +1,29 @@
-# 🌟 Energy Tracker Dashboard
+Energy Tracker Dashboard
+Mit Energy Tracker können Nutzer ihren Energieverbrauch und die damit verbundenen Kosten einfach überwachen. Diese interaktive Webanwendung analysiert tägliche Verbrauchsmuster, schätzt Kosten und fördert energieeffizientes Verhalten.
 
-Effortlessly monitor your energy usage and costs with **Energy Tracker**, an interactive and user-friendly web app designed to analyze daily energy consumption trends, estimate costs, and promote energy-saving practices.
+Funktionen
+Tägliche Verbrauchserfassung: Nutzer können ihren täglichen Energieverbrauch (kWh) eingeben und Entwicklungen verfolgen.
+Interaktive Diagramme: Energieverbrauch wird übersichtlich und dynamisch visualisiert.
+Kostenschätzung:
+Berechnung der Energiekosten in Philippinischen Pesos (PHP).
+Euro (€)-Raten für europäische Nutzer verfügbar.
+Mehrsprachigkeit: Wechsel zwischen Deutsch und Englisch für eine optimierte Benutzererfahrung.
+Dark Mode: Umschaltung zwischen hellem und dunklem Design für bessere Lesbarkeit.
+Hilfebereich: Detaillierte Anleitungen zur Nutzung der Anwendung.
+Responsives Design: Optimiert für Desktop, Tablet und mobile Geräte.
+Demo
+Die Live-Version ist hier verfügbar:
+Energy Tracker Dashboard
 
----
-
-## 🚀 Features
-
-- **Daily Energy Logging**: Input your daily energy usage (kWh) and track trends.
-- **Interactive Graphs**: Visualize your energy consumption using responsive charts.
-- **Cost Estimation**:
-  - Calculate energy costs in **Philippine Pesos (PHP)**.
-  - Includes **Euro (€)** rates for European users.
-- **Multilingual Support**: Switch between **English** and **German** languages for a localized experience.
-- **Dark Mode**: Toggle between light and dark themes for better usability.
-- **Help Section**: Clear and concise guidance to get started.
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices.
-
----
-
-## 🌍 Demo
-
-Check out the live version here:  
-[Energy Tracker Dashboard](https://scheinremdy.github.io/energy-consumption/)
-
----
-
-## 🛠️ Technologies Used
-
-- **HTML5**: Semantic structure for better accessibility.
-- **CSS3**: Responsive styling, animations, and dark mode support.
-- **JavaScript (ES6)**: Logic for data processing, graphs, and user interactions.
-- **Chart.js**: Dynamic graphs for energy usage visualization.
-
----
-
-## 📦 Installation
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/scheinremdy/energy-consumption.git
-   cd energy-consumption
+Technologien
+HTML5: Klare und semantische Struktur für bessere Zugänglichkeit.
+CSS3: Responsives Design, Animationen und Dark Mode-Unterstützung.
+JavaScript (ES6): Datenverarbeitung, Diagramme und Benutzerinteraktionen.
+Chart.js: Dynamische Diagramme zur Visualisierung des Energieverbrauchs.
+Installation
+Repository klonen
+bash
+Copy
+Edit
+git clone https://github.com/scheinremdy/energy-consumption.git
+cd energy-consumption  
