@@ -1,25 +1,22 @@
 let appliances = JSON.parse(localStorage.getItem("data")) || [];
 
 const rates = {
-  ph: 10,   // pesos per kWh
-  de: 0.4,  // euros
-  us: 0.15  // dollars
-};
-
-const rateText = {
-  ph: "Philippines avg: ₱10/kWh",
-  de: "Germany avg: €0.40/kWh",
-  us: "USA avg: $0.15/kWh"
+  ph: 10,
+  de: 0.4,
+  us: 0.15
 };
 
 let chart;
 
 function addAppliance() {
-  const name = nameInput.value;
-  const watts = +wattsInput.value;
-  const hours = +hoursInput.value;
+  const name = document.getElementById("name").value;
+  const watts = +document.getElementById("watts").value;
+  const hours = +document.getElementById("hours").value;
 
-  if (!name || !watts || !hours) return alert("Fill all fields");
+  if (!name || !watts || !hours) {
+    alert("Fill all fields");
+    return;
+  }
 
   appliances.push({ name, watts, hours });
 
@@ -27,26 +24,31 @@ function addAppliance() {
   render();
 }
 
-const nameInput = document.getElementById("name");
-const wattsInput = document.getElementById("watts");
-const hoursInput = document.getElementById("hours");
-const list = document.getElementById("list");
+function deleteAppliance(index) {
+  appliances.splice(index, 1);
+  save();
+  render();
+}
 
 function save() {
   localStorage.setItem("data", JSON.stringify(appliances));
 }
 
 function render() {
+  const list = document.getElementById("list");
   list.innerHTML = "";
 
   let total = 0;
 
-  appliances.forEach(a => {
+  appliances.forEach((a, i) => {
     const kwh = (a.watts * a.hours) / 1000;
     total += kwh;
 
     const li = document.createElement("li");
-    li.textContent = `${a.name} - ${kwh.toFixed(2)} kWh`;
+    li.innerHTML = `
+      ${a.name} - ${kwh.toFixed(2)} kWh
+      <span class="delete" onclick="deleteAppliance(${i})">X</span>
+    `;
     list.appendChild(li);
   });
 
@@ -57,20 +59,8 @@ function render() {
 
   document.getElementById("kwh").textContent = total.toFixed(2);
   document.getElementById("cost").textContent = cost.toFixed(2);
-  document.getElementById("rateInfo").textContent = rateText[country];
 
-  generateInsight(total);
   updateChart();
-}
-
-function generateInsight(total) {
-  const insight = document.getElementById("insight");
-
-  if (total > 20) {
-    insight.textContent = "⚠️ High energy usage. Reduce heavy appliances.";
-  } else {
-    insight.textContent = "✅ Efficient usage.";
-  }
 }
 
 function updateChart() {
@@ -86,7 +76,7 @@ function updateChart() {
     data: {
       labels,
       datasets: [{
-        label: "kWh",
+        label: "kWh Usage",
         data
       }]
     }
@@ -94,9 +84,5 @@ function updateChart() {
 }
 
 document.getElementById("country").onchange = render;
-
-document.getElementById("toggleDark").onclick = () => {
-  document.body.classList.toggle("dark");
-};
 
 render();
