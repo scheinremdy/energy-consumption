@@ -2,50 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Energy Dashboard</title>
+  <title>Energy App</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<header>
-  <h1>⚡ Energy Dashboard</h1>
+<div class="app">
 
-  <select id="country">
-    <option value="ph">🇵🇭 Philippines</option>
-    <option value="de">🇩🇪 Germany</option>
-    <option value="us">🇺🇸 USA</option>
-  </select>
+  <header>
+    <h1>⚡ Energy Dashboard</h1>
+    <div class="controls">
+      <select id="country">
+        <option value="ph">🇵🇭 Philippines</option>
+        <option value="de">🇩🇪 Germany</option>
+        <option value="us">🇺🇸 USA</option>
+      </select>
+      <button id="toggleDark">🌙</button>
+    </div>
+  </header>
 
-  <button id="toggleDark">🌙</button>
-</header>
+  <div class="grid">
 
-<div class="container">
+    <div class="card">
+      <h2>Add Appliance</h2>
+      <input id="name" placeholder="Appliance name">
+      <input id="watts" type="number" placeholder="Watts">
+      <input id="hours" type="number" placeholder="Hours/day">
+      <button onclick="addAppliance()">Add Appliance</button>
+    </div>
 
-  <div class="card">
-    <h2>Add Appliance</h2>
-    <input id="name" placeholder="Appliance">
-    <input id="watts" type="number" placeholder="Watts">
-    <input id="hours" type="number" placeholder="Hours/day">
-    <button onclick="addAppliance()">Add</button>
-  </div>
+    <div class="card">
+      <h2>Appliances</h2>
+      <ul id="list"></ul>
+    </div>
 
-  <div class="card">
-    <h2>Appliances</h2>
-    <ul id="list"></ul>
-  </div>
+    <div class="card">
+      <h2>Summary</h2>
+      <p><b>Total:</b> <span id="kwh">0</span> kWh</p>
+      <p><b>Cost:</b> <span id="cost">0</span></p>
+      <p id="rateInfo"></p>
+      <p id="insight"></p>
+    </div>
 
-  <div class="card">
-    <h2>Summary</h2>
-    <p>Total kWh: <span id="kwh">0</span></p>
-    <p>Total Cost: <span id="cost">0</span></p>
-    <p id="rateInfo"></p>
-    <p id="insight"></p>
-  </div>
+    <div class="card full">
+      <h2>Usage Chart</h2>
+      <canvas id="chart"></canvas>
+    </div>
 
-  <div class="card">
-    <h2>Chart</h2>
-    <canvas id="chart"></canvas>
   </div>
 
 </div>
