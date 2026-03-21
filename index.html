@@ -1,56 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Energy App</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8">
+<title>Energy Intelligence Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div class="app">
 
-  <header>
-    <h1>⚡ Energy Dashboard</h1>
-    <div class="controls">
-      <select id="country">
-        <option value="ph">🇵🇭 Philippines</option>
-        <option value="de">🇩🇪 Germany</option>
-        <option value="us">🇺🇸 USA</option>
-      </select>
-      <button id="toggleDark">🌙</button>
-    </div>
-  </header>
+<header>
+  <h1>⚡ Energy Intelligence</h1>
 
-  <div class="grid">
+  <div class="controls">
+    <select id="country">
+      <option value="ph">🇵🇭 Philippines</option>
+      <option value="de">🇩🇪 Germany</option>
+      <option value="us">🇺🇸 USA</option>
+    </select>
 
-    <div class="card">
-      <h2>Add Appliance</h2>
-      <input id="name" placeholder="Appliance name">
-      <input id="watts" type="number" placeholder="Watts">
-      <input id="hours" type="number" placeholder="Hours/day">
-      <button onclick="addAppliance()">Add Appliance</button>
-    </div>
+    <select id="lang">
+      <option value="en">EN</option>
+      <option value="de">DE</option>
+    </select>
 
-    <div class="card">
-      <h2>Appliances</h2>
-      <ul id="list"></ul>
-    </div>
-
-    <div class="card">
-      <h2>Summary</h2>
-      <p><b>Total:</b> <span id="kwh">0</span> kWh</p>
-      <p><b>Cost:</b> <span id="cost">0</span></p>
-      <p id="rateInfo"></p>
-      <p id="insight"></p>
-    </div>
-
-    <div class="card full">
-      <h2>Usage Chart</h2>
-      <canvas id="chart"></canvas>
-    </div>
-
+    <button id="toggleDark">🌙</button>
   </div>
+</header>
+
+<section class="grid">
+
+<div class="card">
+  <h2>Add Appliance</h2>
+
+  <select id="preset" onchange="selectPreset()">
+    <option value="">Select Appliance</option>
+    <option value="tv">TV</option>
+    <option value="fridge">Refrigerator</option>
+    <option value="ac">Air Conditioner</option>
+    <option value="heater">Heater</option>
+    <option value="laptop">Laptop</option>
+    <option value="washing">Washing Machine</option>
+    <option value="fan">Electric Fan</option>
+  </select>
+
+  <input id="name" placeholder="Custom name (optional)">
+  <input id="watts" type="number" placeholder="Watts">
+  <input id="hours" type="number" placeholder="Hours/day">
+
+  <button onclick="addAppliance()">Add Appliance</button>
+</div>
+
+<div class="card">
+  <h2>Appliances</h2>
+  <ul id="list"></ul>
+  <p id="topDevice"></p>
+</div>
+
+<div class="card">
+  <h2>Summary</h2>
+  <p>Total: <span id="kwh">0</span> kWh</p>
+  <p>Cost: <span id="cost">0</span></p>
+  <p>Monthly: <span id="monthly">0</span></p>
+  <p>CO₂: <span id="co2">0</span> kg</p>
+  <p id="insight"></p>
+</div>
+
+<div class="card full">
+  <canvas id="chart"></canvas>
+</div>
+
+</section>
 
 </div>
 
