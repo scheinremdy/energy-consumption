@@ -1,34 +1,48 @@
-let appliances = [];
+let appliances = JSON.parse(localStorage.getItem("data")) || [];
 
-const rate = 10;
+const rates = {
+  ph: { rate: 10, symbol: "₱" },
+  de: { rate: 0.4, symbol: "€" },
+  us: { rate: 0.15, symbol: "$" }
+};
 
 let usageChart, costChart, intensityChart;
+let lastCost = 0;
+
+function save() {
+  localStorage.setItem("data", JSON.stringify(appliances));
+}
 
 function addAppliance() {
   const name = document.getElementById("name").value;
   const watts = +document.getElementById("watts").value;
   const hours = +document.getElementById("hours").value;
 
-  if (!name || !watts || !hours) {
-    alert("Fill all fields");
-    return;
-  }
+  if (!name || !watts || !hours) return alert("Fill all fields");
 
   appliances.push({ name, watts, hours });
+  save();
+  render();
+}
 
+function deleteItem(i){
+  appliances.splice(i,1);
+  save();
   render();
 }
 
 function resetData(){
   appliances = [];
+  save();
   render();
 }
 
 function render() {
-  let total = 0;
 
   const list = document.getElementById("list");
   list.innerHTML = "";
+
+  let total = 0;
 
   appliances.forEach((a,i) => {
     const kwh = (a.watts * a.hours) / 1000;
@@ -40,21 +54,30 @@ function render() {
     list.appendChild(li);
   });
 
+  const country = document.getElementById("country").value;
+  const rate = rates[country].rate;
+  const symbol = rates[country].symbol;
+
   const cost = total * rate;
   const prediction = cost * 30;
 
+  // cost change
+  let change = cost - lastCost;
+  lastCost = cost;
+
+  let changeText = change > 0 ? `🔴 +${change.toFixed(2)}` :
+                   change < 0 ? `🟢 ${change.toFixed(2)}` :
+                   "No change";
+
   document.getElementById("kwh").textContent = total.toFixed(2);
-  document.getElementById("cost").textContent = cost.toFixed(2);
-  document.getElementById("prediction").textContent = prediction.toFixed(2);
+  document.getElementById("cost").textContent = symbol + cost.toFixed(2);
+  document.getElementById("prediction").textContent =
+    symbol + prediction.toFixed(2) + ` (${changeText})`;
   document.getElementById("devices").textContent = appliances.length;
 
   generateInsight(total);
-  updateCharts();
-}
-
-function deleteItem(i){
-  appliances.splice(i,1);
-  render();
+  updateTopUsers(total);
+  updateCharts(total, rate);
 }
 
 function generateInsight(total) {
@@ -65,50 +88,64 @@ function generateInsight(total) {
     return;
   }
 
-  let worst = appliances.reduce((a,b)=>
-    (a.watts*a.hours > b.watts*b.hours ? a : b)
+  let sorted = [...appliances].sort((a,b)=>
+    (b.watts*b.hours)-(a.watts*a.hours)
   );
 
-  if (total > 20) {
-    el.textContent = `⚠️ High usage. Biggest: ${worst.name}`;
-  } else {
-    el.textContent = `✅ Efficient usage.`;
-  }
+  let top = sorted[0];
+
+  let msg = `⚡ ${top.name} is highest usage. `;
+
+  if (total > 25) msg += "⚠️ High consumption.";
+  else msg += "✅ Efficient usage.";
+
+  el.textContent = msg;
 }
 
-function updateCharts() {
+function updateTopUsers(total){
+  let sorted = [...appliances].sort((a,b)=>
+    (b.watts*b.hours)-(a.watts*a.hours)
+  );
 
-  const labels = appliances.map(a => a.name);
-  const usage = appliances.map(a => (a.watts * a.hours) / 1000);
-  const costData = usage.map(kwh => kwh * rate);
+  let text = "🔥 Top Consumers:<br>";
+
+  sorted.slice(0,3).forEach((a,i)=>{
+    let percent = ((a.watts*a.hours)/(total*1000)*100).toFixed(1);
+    text += `${i+1}. ${a.name} — ${percent}%<br>`;
+  });
+
+  document.getElementById("topUsers").innerHTML = text;
+}
+
+function updateCharts(total, rate){
+
+  const labels = appliances.map(a=>a.name);
+  const usage = appliances.map(a=>(a.watts*a.hours)/1000);
+  const costData = usage.map(kwh=>kwh*rate);
+
+  const weekLabels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const weekly = weekLabels.map(()=> total + Math.random()*5);
 
   if (usageChart) usageChart.destroy();
   if (costChart) costChart.destroy();
   if (intensityChart) intensityChart.destroy();
 
   usageChart = new Chart(document.getElementById("usageChart"), {
-    type: "bar",
-    data: {
-      labels,
-      datasets: [{ label: "kWh", data: usage }]
-    }
+    type:"line",
+    data:{ labels:weekLabels, datasets:[{ label:"kWh", data:weekly }] }
   });
 
   costChart = new Chart(document.getElementById("costChart"), {
-    type: "line",
-    data: {
-      labels,
-      datasets: [{ label: "Cost", data: costData }]
-    }
+    type:"bar",
+    data:{ labels, datasets:[{ label:"Cost", data:costData }] }
   });
 
   intensityChart = new Chart(document.getElementById("intensityChart"), {
-    type: "doughnut",
-    data: {
-      labels,
-      datasets: [{ data: usage }]
-    }
+    type:"doughnut",
+    data:{ labels, datasets:[{ data:usage }] }
   });
 }
+
+document.getElementById("country").onchange = render;
 
 render();
