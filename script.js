@@ -21,6 +21,11 @@ function addAppliance() {
   if (!name || !watts || !hours) return alert("Fill all fields");
 
   appliances.push({ name, watts, hours });
+
+  document.getElementById("name").value = "";
+  document.getElementById("watts").value = "";
+  document.getElementById("hours").value = "";
+
   save();
   render();
 }
@@ -61,19 +66,28 @@ function render() {
   const cost = total * rate;
   const prediction = cost * 30;
 
-  // cost change
   let change = cost - lastCost;
   lastCost = cost;
 
-  let changeText = change > 0 ? `🔴 +${change.toFixed(2)}` :
-                   change < 0 ? `🟢 ${change.toFixed(2)}` :
-                   "No change";
+  let changeEl = document.getElementById("costChange");
+
+  if (change > 0) {
+    changeEl.style.color = "red";
+    changeEl.textContent = `↑ +${change.toFixed(2)}`;
+  } else if (change < 0) {
+    changeEl.style.color = "green";
+    changeEl.textContent = `↓ ${change.toFixed(2)}`;
+  } else {
+    changeEl.textContent = "No change";
+  }
 
   document.getElementById("kwh").textContent = total.toFixed(2);
   document.getElementById("cost").textContent = symbol + cost.toFixed(2);
-  document.getElementById("prediction").textContent =
-    symbol + prediction.toFixed(2) + ` (${changeText})`;
+  document.getElementById("prediction").textContent = symbol + prediction.toFixed(2);
   document.getElementById("devices").textContent = appliances.length;
+
+  let score = Math.max(0, 100 - total * 2);
+  document.getElementById("efficiency").textContent = score.toFixed(0) + "%";
 
   generateInsight(total);
   updateTopUsers(total);
@@ -84,7 +98,11 @@ function generateInsight(total) {
   const el = document.getElementById("insight");
 
   if (appliances.length === 0) {
-    el.textContent = "Add appliances to start analysis.";
+    el.innerHTML = `
+    👋 Welcome to EnergyAI<br><br>
+    Start adding appliances to analyze your energy usage.<br>
+    You'll get smart insights and cost predictions.
+    `;
     return;
   }
 
@@ -94,15 +112,17 @@ function generateInsight(total) {
 
   let top = sorted[0];
 
-  let msg = `⚡ ${top.name} is highest usage. `;
+  let msg = `⚡ ${top.name} contributes the most to your energy usage. 
+  Reducing its usage can lower your monthly cost.`;
 
-  if (total > 25) msg += "⚠️ High consumption.";
-  else msg += "✅ Efficient usage.";
+  if (total > 25) msg += " ⚠️ Overall usage is high.";
 
   el.textContent = msg;
 }
 
 function updateTopUsers(total){
+  if (appliances.length === 0) return;
+
   let sorted = [...appliances].sort((a,b)=>
     (b.watts*b.hours)-(a.watts*a.hours)
   );
@@ -124,7 +144,7 @@ function updateCharts(total, rate){
   const costData = usage.map(kwh=>kwh*rate);
 
   const weekLabels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  const weekly = weekLabels.map(()=> total + Math.random()*5);
+  const weekly = weekLabels.map((_,i)=> total*(0.8 + i*0.05));
 
   if (usageChart) usageChart.destroy();
   if (costChart) costChart.destroy();
