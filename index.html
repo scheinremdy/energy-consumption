@@ -19,12 +19,18 @@
 
 <div class="topbar">
   <h1>Energy Intelligence</h1>
+
+  <select id="country">
+    <option value="ph">🇵🇭 Philippines</option>
+    <option value="de">🇩🇪 Germany</option>
+    <option value="us">🇺🇸 USA</option>
+  </select>
 </div>
 
 <div class="stats">
   <div class="stat"><h3>Total kWh</h3><p id="kwh">0</p></div>
   <div class="stat"><h3>Cost</h3><p id="cost">0</p></div>
-  <div class="stat"><h3>Predicted</h3><p id="prediction">0</p></div>
+  <div class="stat"><h3>Prediction</h3><p id="prediction">0</p></div>
   <div class="stat"><h3>Devices</h3><p id="devices">0</p></div>
 </div>
 
@@ -42,11 +48,12 @@
 <div class="card">
   <h3>AI Insight</h3>
   <p id="insight"></p>
+  <p id="topUsers"></p>
   <ul id="list"></ul>
 </div>
 
 <div class="card full">
-  <h3>Energy Usage</h3>
+  <h3>Weekly Usage</h3>
   <canvas id="usageChart"></canvas>
 </div>
 
